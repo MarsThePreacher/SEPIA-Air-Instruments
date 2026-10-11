@@ -1,5 +1,8 @@
 export { Landing } from './landing/Landing';
 export { Sidebar } from './panels/Sidebar';
+export type { SheetView } from './panels/Sidebar';
+export { PlayerTopBar, PlayerToolbar } from './panels/PlayerBar';
+export { Privacy } from './privacy/Privacy';
 export { RightPanel } from './panels/RightPanel';
 export { Stage } from './visualizer/Stage';
 export { LoadingOverlay } from './ui/LoadingOverlay';

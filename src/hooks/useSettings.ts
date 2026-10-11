@@ -16,6 +16,7 @@ export function useSettings(): UseSettingsReturn {
             }
         }
         catch {
+            // Ignore unavailable or invalid localStorage data.
         }
         return DEFAULT_SETTINGS;
     });
@@ -24,6 +25,7 @@ export function useSettings(): UseSettingsReturn {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
         }
         catch {
+            // Ignore localStorage write failures.
         }
     }, [settings]);
     const updateSettings = useCallback((updates: Partial<Settings>) => {
@@ -35,6 +37,7 @@ export function useSettings(): UseSettingsReturn {
             localStorage.removeItem(STORAGE_KEY);
         }
         catch {
+            // Ignore localStorage removal failures.
         }
     }, []);
     return {

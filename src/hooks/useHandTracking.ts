@@ -131,7 +131,7 @@ export function useHandTracking({ enabled, onHandsDetected, }: UseHandTrackingOp
                 animationFrameRef.current = detectionLoopId;
                 setIsLoading(false);
             }
-            catch (err: any) {
+            catch (err: unknown) {
                 if (stream) {
                     stream.getTracks().forEach((track) => track.stop());
                     stream = null;
@@ -148,25 +148,26 @@ export function useHandTracking({ enabled, onHandsDetected, }: UseHandTrackingOp
                 if (handLandmarkerPromise) {
                     handLandmarkerPromise
                         .then((landmarker) => landmarker.close())
-                        .catch(() => { });
+                        .catch(() => undefined);
                     handLandmarkerPromise = null;
                 }
                 if (mounted) {
-                    console.error('Hand tracking initialization error:', err);
-                    let errorMessage = err.message || 'Failed to initialize hand tracking';
-                    if (err.name === 'NotAllowedError') {
+                    const error = err instanceof Error ? err : new Error('Failed to initialize hand tracking');
+                    console.error('Hand tracking initialization error:', error);
+                    let errorMessage = error.message || 'Failed to initialize hand tracking';
+                    if (error.name === 'NotAllowedError') {
                         errorMessage = 'Camera access denied. Please allow camera access and try again.';
                     }
-                    else if (err.name === 'NotFoundError') {
+                    else if (error.name === 'NotFoundError') {
                         errorMessage = 'No camera found. Please connect a camera and try again.';
                     }
-                    else if (err.name === 'NotReadableError') {
+                    else if (error.name === 'NotReadableError') {
                         errorMessage = 'Camera is in use by another application.';
                     }
-                    else if (err.name === 'AbortError') {
+                    else if (error.name === 'AbortError') {
                         errorMessage = 'Camera initialization was interrupted. Please try again.';
                     }
-                    else if (typeof err.message === 'string' && (err.message.toLowerCase().includes('fetch') || err.message.toLowerCase().includes('network') || err.message.toLowerCase().includes('wasm'))) {
+                    else if (error.message.toLowerCase().includes('fetch') || error.message.toLowerCase().includes('network') || error.message.toLowerCase().includes('wasm')) {
                         errorMessage = 'Failed to load hand tracking assets. Check your internet connection and try again.';
                     }
                     setError(errorMessage);
@@ -175,6 +176,7 @@ export function useHandTracking({ enabled, onHandsDetected, }: UseHandTrackingOp
             }
         };
         initialize();
+        const video = videoRef.current;
         return () => {
             mounted = false;
             if (detectionLoopId) {
@@ -184,10 +186,10 @@ export function useHandTracking({ enabled, onHandsDetected, }: UseHandTrackingOp
                 cancelAnimationFrame(animationFrameRef.current);
                 animationFrameRef.current = null;
             }
-            if (videoRef.current?.srcObject) {
-                const mediaStream = videoRef.current.srcObject as MediaStream;
+            if (video?.srcObject) {
+                const mediaStream = video.srcObject as MediaStream;
                 mediaStream.getTracks().forEach((track) => track.stop());
-                videoRef.current.srcObject = null;
+                video.srcObject = null;
             }
             if (handLandmarkerRef.current) {
                 handLandmarkerRef.current.close();

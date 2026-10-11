@@ -1,121 +1,92 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Sepia | Play Music with Hand Gestures</title>
-    <meta name="description" content="Transform hand movements into music with real-time gesture tracking. Play 120 virtual instruments in your browser with no extra hardware." />
-    <meta name="keywords" content="air instruments, hand tracking, gesture music, virtual instruments, web audio, MediaPipe, webcam music" />
-    <meta name="author" content="Sepia" />
+    <title>Sepia: Play music with your hands</title>
+    <meta name="description" content="Raise a finger and hear a chord. Play 120 instruments through your camera with real-time hand tracking, entirely in your browser. No install, no account." />
+    <meta name="author" content="Mohsin Belam" />
+    <meta name="application-name" content="Sepia" />
     <meta name="robots" content="index,follow,max-image-preview:large" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <meta name="theme-color" content="#0a0a0a" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="color-scheme" content="light dark" />
     <meta name="format-detection" content="telephone=no,email=no,address=no" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Sepia" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <link rel="canonical" href="https://sepia.website/" />
+
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://sepia.website/" />
-    <meta property="og:title" content="Sepia | Play Music with Hand Gestures" />
-    <meta property="og:description" content="Transform hand movements into music with real-time gesture tracking and 120 playable instruments." />
-    <meta property="og:image" content="https://sepia.website/sepia-long.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Sepia Air Instruments preview" />
     <meta property="og:site_name" content="Sepia" />
     <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://sepia.website/" />
+    <meta property="og:title" content="Sepia: Play music with your hands" />
+    <meta property="og:description" content="Raise a finger and hear a chord. Play 120 instruments through your camera with real-time hand tracking, entirely in your browser. No install, no account." />
+    <meta property="og:image" content="https://sepia.website/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Two tracked hands with fingertips lit up as chords, next to the words Play music with your hands." />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content="https://sepia.website/" />
-    <meta name="twitter:title" content="Sepia | Play Music with Hand Gestures" />
-    <meta name="twitter:description" content="Play music from hand gestures in your browser with low-latency tracking and expressive instruments." />
-    <meta name="twitter:image" content="https://sepia.website/sepia-long.png" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="any" />
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="icon" type="image/svg+xml" href="/sepia.svg" />
-    <link rel="apple-touch-icon" href="/favicon.ico" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <meta name="twitter:title" content="Sepia: Play music with your hands" />
+    <meta name="twitter:description" content="Raise a finger and hear a chord. Play 120 instruments through your camera with real-time hand tracking, entirely in your browser. No install, no account." />
+    <meta name="twitter:image" content="https://sepia.website/og-image.png" />
+    <meta name="twitter:image:alt" content="Two tracked hands with fingertips lit up as chords, next to the words Play music with your hands." />
+
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
     <link rel="preconnect" href="https://storage.googleapis.com" crossorigin />
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
-    <link rel="dns-prefetch" href="https://storage.googleapis.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <style>
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-      }
 
-      html,
-      body,
-      #root {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Sepia",
+        "alternateName": "Sepia Air Instruments",
+        "url": "https://sepia.website/",
+        "description": "Raise a finger and hear a chord. Play 120 instruments through your camera with real-time hand tracking, entirely in your browser. No install, no account.",
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires a modern browser with camera access and WebAssembly.",
+        "image": "https://sepia.website/og-image.png",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "author": { "@type": "Person", "name": "Mohsin Belam" },
+        "isAccessibleForFree": true
       }
-
-      body {
-        overflow-x: hidden;
-        overflow-y: auto;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-        background-color: #0a0a0a;
-        color: #fff;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-rendering: optimizeLegibility;
-      }
-
-      #root:empty {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        gap: 16px;
-      }
-
-      #root:empty::before {
-        content: '';
-        width: 48px;
-        height: 48px;
-        border: 3px solid rgba(255, 255, 255, 0.1);
-        border-top-color: #4ecdc4;
-        border-radius: 50%;
-        animation: sepia-spin 0.8s linear infinite;
-      }
-
-      #root:empty::after {
-        content: 'Loading Sepia...';
-        font-size: 14px;
-        letter-spacing: 0.5px;
-        color: rgba(255, 255, 255, 0.58);
-      }
-
-      @keyframes sepia-spin {
-        to {
-          transform: rotate(360deg);
+    </script>
+    <script>
+      (function () {
+        var theme;
+        try { theme = localStorage.getItem('sepia-theme'); } catch (e) {}
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         }
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', theme === 'dark' ? '#000000' : '#ffffff');
+      })();
+    </script>
+    <style>
+      html, body, #root { margin: 0; min-height: 100%; }
+      html { background: #fff; }
+      html[data-theme='dark'] { background: #000; }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif;
+        -webkit-font-smoothing: antialiased;
       }
     </style>
   </head>
   <body>
-    <nav aria-label="Breadcrumb" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;" itemscope itemtype="https://schema.org/BreadcrumbList">
-      <span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <a itemprop="item" href="https://sepia.website/"><span itemprop="name">Home</span></a>
-        <meta itemprop="position" content="1" />
-      </span>
-    </nav>
-    <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;" itemscope itemtype="https://schema.org/WebSite">
-      <meta itemprop="name" content="Sepia" />
-      <meta itemprop="url" content="https://sepia.website/" />
-    </div>
     <noscript>
-      <div style="display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px;text-align:center;background:#0a0a0a;color:#fff;">
+      <div style="display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px;text-align:center;">
         <div>
-          <h1 style="margin:0 0 16px;">JavaScript Required</h1>
-          <p style="margin:0;color:rgba(255,255,255,0.72);">Sepia needs JavaScript to run. Enable JavaScript in your browser settings and reload the page.</p>
+          <h1 style="margin:0 0 16px;">JavaScript required</h1>
+          <p style="margin:0;opacity:0.7;">Sepia runs in your browser. Turn on JavaScript and reload the page to play.</p>
         </div>
       </div>
     </noscript>

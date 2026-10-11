@@ -3,14 +3,18 @@ import type { Hand, FingerName } from './types';
 import { INSTRUMENTS, DEFAULT_INSTRUMENT_ID, FINGER_NAMES, } from './constants';
 import { useAudioEngine, useAudioRecorder, useHandTracking, useParticles, useNoteHistory, useSettings, } from './hooks';
 import { detectRaisedFingers, getPalmSize, getFingertipPosition, getRealHandSide, createFingerKey, drawMirroredVideo, drawCameraOverlay, drawHandSkeleton, drawFingertips, drawParticles, clearCanvas, startPreload, resetPreload, } from './utils';
-import { Landing, Sidebar, RightPanel, Stage, LoadingOverlay, ErrorOverlay, HelpModal, } from './components';
-import './styles/global.css';
+import { Landing, Privacy, Sidebar, RightPanel, Stage, LoadingOverlay, ErrorOverlay, HelpModal, PlayerTopBar, PlayerToolbar, } from './components';
+import type { SheetView } from './components';
+import { formatDuration } from './utils/recording';
+import { navigate, usePathname } from './lib/router';
 import './styles/App.css';
 export default function App() {
     const [isStarted, setIsStarted] = useState(false);
     const [selectedInstrumentId, setSelectedInstrumentId] = useState(DEFAULT_INSTRUMENT_ID);
     const [activeFingers, setActiveFingers] = useState<Set<string>>(new Set());
     const [showHelp, setShowHelp] = useState(false);
+    const [sheetView, setSheetView] = useState<SheetView>(null);
+    const pathname = usePathname();
     const [leftAccuracy, setLeftAccuracy] = useState(0);
     const [rightAccuracy, setRightAccuracy] = useState(0);
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -61,8 +65,16 @@ export default function App() {
     });
     const { isRecording, duration: recordingDuration, lastRecordingUrl, startRecording, stopRecording } = useAudioRecorder();
     useEffect(() => {
-        startPreload();
-    }, []);
+        if (pathname === '/')
+            startPreload();
+    }, [pathname]);
+    useEffect(() => {
+        if (!sheetView)
+            return;
+        const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setSheetView(null);
+        document.addEventListener('keydown', onKey);
+        return () => document.removeEventListener('keydown', onKey);
+    }, [sheetView]);
     const handleHandsDetected = useCallback((detectedHands: Hand[]) => {
         if (!canvasRef.current)
             return;
@@ -143,7 +155,7 @@ export default function App() {
         rightAccuracyRef.current = rightAccuracyRef.current * 0.8 + rightRaw * 0.2;
         setLeftAccuracy(leftAccuracyRef.current);
         setRightAccuracy(rightAccuracyRef.current);
-    }, [instrument, playNote, stopNote, addParticle, addNote, computeAccuracy]);
+    }, [instrument, playNote, stopNote, addParticle, addNote, computeAccuracy, getFacingScore]);
     const { videoRef, isLoading, error, hands } = useHandTracking({
         enabled: isStarted,
         onHandsDetected: handleHandsDetected,
@@ -159,6 +171,11 @@ export default function App() {
         if (!ctx)
             return;
         const render = () => {
+            if (video.videoWidth && (canvas.width !== video.videoWidth || canvas.height !== video.videoHeight)) {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvas.parentElement?.style.setProperty('--video-ratio', String(video.videoWidth / video.videoHeight));
+            }
             clearCanvas(ctx, canvas.width, canvas.height);
             drawMirroredVideo(ctx, video, canvas.width, canvas.height);
             drawCameraOverlay(ctx, canvas.width, canvas.height, 0.35);
@@ -186,7 +203,10 @@ export default function App() {
         };
     }, [stopAll]);
     const handleStart = useCallback(() => {
+        if (window.location.pathname !== '/')
+            navigate('/');
         setIsStarted(true);
+        window.scrollTo(0, 0);
     }, []);
     const handleInstrumentChange = useCallback((id: string) => {
         setSelectedInstrumentId(id);
@@ -203,45 +223,29 @@ export default function App() {
         setIsStarted(false);
         setLeftAccuracy(0);
         setRightAccuracy(0);
+        setSheetView(null);
         resetPreload();
     }, [stopAll]);
     if (!isStarted) {
-        return <Landing onStart={handleStart}/>;
+        return pathname === '/privacy' ? <Privacy onStart={handleStart}/> : <Landing onStart={handleStart}/>;
     }
-    return (<div className="app">
-      
+    return (<div className={`app ${sheetView ? 'app--sheet-open' : ''}`}>
       {isLoading && <LoadingOverlay />}
-
-      
-      {error && <ErrorOverlay message={error}/>}
-
-      
+      {error && <ErrorOverlay message={error} onHome={handleGoHome}/>}
       <HelpModal isOpen={showHelp} onClose={() => setShowHelp(false)}/>
 
-      
+      <PlayerTopBar onHomeClick={handleGoHome} onHelpClick={() => setShowHelp(true)}/>
+
       <div className="app__main">
-        
-        <Sidebar selectedInstrumentId={selectedInstrumentId} onSelectInstrument={handleInstrumentChange} volume={settings.volume} onVolumeChange={(v) => updateSettings({ volume: v })} showSkeleton={settings.showSkeleton} onShowSkeletonChange={(v) => updateSettings({ showSkeleton: v })} showParticles={settings.showParticles} onShowParticlesChange={(v) => updateSettings({ showParticles: v })} onHelpClick={() => setShowHelp(true)} onHomeClick={handleGoHome} isRecording={isRecording} onStartRecording={startRecording} onStopRecording={stopRecording} recordingDuration={recordingDuration} lastRecordingUrl={lastRecordingUrl}/>
+        <Sidebar selectedInstrumentId={selectedInstrumentId} onSelectInstrument={handleInstrumentChange} volume={settings.volume} onVolumeChange={(v) => updateSettings({ volume: v })} showSkeleton={settings.showSkeleton} onShowSkeletonChange={(v) => updateSettings({ showSkeleton: v })} showParticles={settings.showParticles} onShowParticlesChange={(v) => updateSettings({ showParticles: v })} onHelpClick={() => setShowHelp(true)} onHomeClick={handleGoHome} isRecording={isRecording} onStartRecording={startRecording} onStopRecording={stopRecording} recordingDuration={recordingDuration} lastRecordingUrl={lastRecordingUrl} sheetView={sheetView} onCloseSheet={() => setSheetView(null)}/>
 
-        
-        <Stage instrument={instrument} videoRef={videoRef} canvasRef={canvasRef}/>
+        <Stage instrument={instrument} videoRef={videoRef} canvasRef={canvasRef} handsCount={hands.length} leftAccuracy={leftAccuracy} rightAccuracy={rightAccuracy} isRecording={isRecording} recordingTime={formatDuration(recordingDuration)}/>
 
-        
         <RightPanel instrument={instrument} activeFingers={activeFingers} noteHistory={history}/>
       </div>
-      <div className="accuracy-bar" aria-live="polite">
-        <div className="accuracy-bar__section accuracy-bar__section--left">
-          <span className="accuracy-bar__label">Left</span>
-          <span className="accuracy-bar__value">{Math.round(leftAccuracy * 100)}%</span>
-        </div>
-        <div className={`accuracy-bar__section accuracy-bar__section--center ${hands.length > 0 ? 'accuracy-bar__section--detected' : ''}`}>
-          <span className="accuracy-bar__dot"/>
-          <span className="accuracy-bar__status">{hands.length > 0 ? `${hands.length} hand${hands.length > 1 ? 's' : ''} detected` : 'Show hands to play'}</span>
-        </div>
-        <div className="accuracy-bar__section accuracy-bar__section--right">
-          <span className="accuracy-bar__label">Right</span>
-          <span className="accuracy-bar__value">{Math.round(rightAccuracy * 100)}%</span>
-        </div>
-      </div>
+
+      <PlayerToolbar instrument={instrument} onOpenSheet={setSheetView} isRecording={isRecording} recordingDuration={recordingDuration} lastRecordingUrl={lastRecordingUrl} onStartRecording={startRecording} onStopRecording={stopRecording}/>
+
+      <div className="sheet-scrim" onClick={() => setSheetView(null)} aria-hidden="true"/>
     </div>);
 }

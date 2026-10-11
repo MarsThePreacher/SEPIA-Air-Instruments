@@ -67,6 +67,7 @@ export class AudioEngine {
                 this._masterGain.disconnect(this.recordingDestination);
             }
             catch {
+                // The destination may already be disconnected.
             }
             this.recordingDestination = null;
         }
@@ -140,6 +141,7 @@ export class AudioEngine {
                 gainNode.gain.exponentialRampToValueAtTime(0.001, currentTime + releaseTime);
             }
             catch {
+                // The gain node may already be stopped or disconnected.
             }
         });
         active.oscillators.forEach((oscillator) => {
@@ -147,6 +149,7 @@ export class AudioEngine {
                 oscillator.stop(currentTime + releaseTime + 0.01);
             }
             catch {
+                // The oscillator may already be stopped.
             }
         });
         this.activeOscillators.delete(key);

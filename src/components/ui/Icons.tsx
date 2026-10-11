@@ -1,4 +1,4 @@
-import type { FC, SVGProps } from 'react';
+import { createElement, type FC, type SVGProps } from 'react';
 type IconProps = SVGProps<SVGSVGElement> & {
     size?: number;
 };
@@ -307,8 +307,39 @@ interface SepiaLogoProps {
     size?: number;
     className?: string;
 }
-export const SepiaLogo: FC<SepiaLogoProps> = ({ size = 24, className }) => (<img src="/sepia.svg" alt="Sepia" width={size} height={size} className={className} style={{ display: 'block' }}/>);
-export const instrumentIcons: Record<string, FC<IconProps>> = {
+export const SepiaLogo: FC<SepiaLogoProps> = ({ size = 24, className }) => (<span role="img" aria-label="Sepia" className={className} style={{
+        display: 'block',
+        width: size,
+        height: size,
+        flexShrink: 0,
+        backgroundColor: 'currentColor',
+        WebkitMask: 'url(/sepia.svg) center / contain no-repeat',
+        mask: 'url(/sepia.svg) center / contain no-repeat',
+    }}/>);
+export const SunIcon: FC<IconProps> = ({ size = 24, ...props }) => (<svg width={size} height={size} viewBox="0 0 24 24" {...defaultProps} {...props}>
+    <circle cx="12" cy="12" r="4"/>
+    <path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4L6 18M18 6l1.4-1.4"/>
+  </svg>);
+export const MoonIcon: FC<IconProps> = ({ size = 24, ...props }) => (<svg width={size} height={size} viewBox="0 0 24 24" {...defaultProps} {...props}>
+    <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>
+  </svg>);
+export const SystemThemeIcon: FC<IconProps> = ({ size = 24, ...props }) => (<svg width={size} height={size} viewBox="0 0 24 24" {...defaultProps} {...props}>
+    <circle cx="12" cy="12" r="8.5"/>
+    <path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor" stroke="none"/>
+  </svg>);
+export const SearchIcon: FC<IconProps> = ({ size = 24, ...props }) => (<svg width={size} height={size} viewBox="0 0 24 24" {...defaultProps} {...props}>
+    <circle cx="11" cy="11" r="6.5"/>
+    <path d="M16 16l4.5 4.5"/>
+  </svg>);
+export const SlidersIcon: FC<IconProps> = ({ size = 24, ...props }) => (<svg width={size} height={size} viewBox="0 0 24 24" {...defaultProps} {...props}>
+    <path d="M4 7h10M18 7h2M4 17h2M10 17h10"/>
+    <circle cx="16" cy="7" r="2"/>
+    <circle cx="8" cy="17" r="2"/>
+  </svg>);
+export const ChevronLeftIcon: FC<IconProps> = ({ size = 24, ...props }) => (<svg width={size} height={size} viewBox="0 0 24 24" {...defaultProps} {...props}>
+    <polyline points="15 18 9 12 15 6"/>
+  </svg>);
+const instrumentIcons: Record<string, FC<IconProps>> = {
     'piano': PianoIcon,
     'guitar': GuitarIcon,
     'violin': ViolinIcon,
@@ -341,6 +372,7 @@ export const instrumentIcons: Record<string, FC<IconProps>> = {
     'ethnic': EthnicIcon,
     'percussion': PercussionIcon,
 };
-export const getInstrumentIcon = (iconId: string): FC<IconProps> => {
+const getInstrumentIcon = (iconId: string): FC<IconProps> => {
     return instrumentIcons[iconId] || MusicNoteIcon;
 };
+export const InstrumentIcon: FC<{ icon: string; size?: number }> = ({ icon, size = 24 }) => createElement(getInstrumentIcon(icon), { size });

@@ -1,132 +1,56 @@
-import { CloseIcon, HandIcon, MusicNoteIcon, CameraIcon, VolumeIcon, SparklesIcon } from './Icons';
-import { useEffect, useCallback } from 'react';
+import { useEffect, useRef } from 'react';
+import { CloseIcon, HandIcon, MusicNoteIcon, CameraIcon, RecordIcon } from './Icons';
+import { INSTRUMENTS } from '../../constants';
+
 interface HelpModalProps {
     isOpen: boolean;
     onClose: () => void;
 }
+
+const TOPICS = [
+    { icon: HandIcon, title: 'Raise a finger to play', body: 'Hold a finger up to sustain its chord or note. Lower it to release. Both hands play at once, so you have ten voices.' },
+    { icon: MusicNoteIcon, title: 'Change the instrument', body: `Choose from ${INSTRUMENTS.length} instruments. Each one has its own mapping, shown beside the camera view.` },
+    { icon: RecordIcon, title: 'Record a take', body: 'Recording captures Sepia’s sound only. Save it as a file when you’re done.' },
+    { icon: CameraIcon, title: 'Get the best tracking', body: 'Use even, front-facing light. Keep your palms toward the camera, about 30 to 60 cm away, with a plain background behind you.' },
+];
+
 export function HelpModal({ isOpen, onClose }: HelpModalProps) {
-    const handleKeyDown = useCallback((e: KeyboardEvent) => {
-        if (e.key === 'Escape') {
-            onClose();
-        }
-    }, [onClose]);
+    const closeRef = useRef<HTMLButtonElement>(null);
+
     useEffect(() => {
-        if (isOpen) {
-            document.addEventListener('keydown', handleKeyDown);
-            document.body.style.overflow = 'hidden';
-        }
-        return () => {
-            document.removeEventListener('keydown', handleKeyDown);
-            document.body.style.overflow = '';
-        };
-    }, [isOpen, handleKeyDown]);
+        if (!isOpen)
+            return;
+        const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
+        document.addEventListener('keydown', onKey);
+        closeRef.current?.focus();
+        return () => document.removeEventListener('keydown', onKey);
+    }, [isOpen, onClose]);
+
     if (!isOpen)
         return null;
-    return (<div className="help-modal__overlay" onClick={onClose}>
-      <div className="help-modal" onClick={(e) => e.stopPropagation()}>
-        <header className="help-modal__header">
-          <h2 className="help-modal__title">How to Play</h2>
-          <button className="help-modal__close" onClick={onClose} aria-label="Close help">
-            <CloseIcon size={20}/>
+
+    return (<div className="modal" onClick={onClose}>
+      <div className="modal__panel" role="dialog" aria-modal="true" aria-labelledby="help-title" onClick={(e) => e.stopPropagation()}>
+        <header className="modal__header">
+          <h2 className="modal__title" id="help-title">How to play</h2>
+          <button ref={closeRef} type="button" className="modal__close" onClick={onClose} aria-label="Close">
+            <CloseIcon size={14} strokeWidth={2.6}/>
           </button>
         </header>
 
-        <div className="help-modal__content">
-          
-          <section className="help-modal__section">
-            <h3 className="help-modal__section-title">Quick Start</h3>
-            <ol className="help-modal__steps">
-              <li>Allow camera access when prompted</li>
-              <li>Position yourself so your hands are visible</li>
-              <li>Raise individual fingers to play notes</li>
-              <li>Each finger triggers a different chord or note</li>
-            </ol>
-          </section>
-
-          
-          <section className="help-modal__section">
-            <h3 className="help-modal__section-title">Controls</h3>
-            <div className="help-modal__grid">
-              <HelpItem icon={<HandIcon size={24}/>} title="Hand Gestures" description="Raise a finger above its base position to trigger its assigned note. Lower it to stop."/>
-              <HelpItem icon={<MusicNoteIcon size={24}/>} title="Instruments" description="Select from 25+ instruments in the left panel. Each has unique chord mappings."/>
-              <HelpItem icon={<VolumeIcon size={24}/>} title="Volume" description="Adjust the master volume using the slider in the settings panel."/>
-              <HelpItem icon={<SparklesIcon size={24}/>} title="Visual Effects" description="Toggle particle effects and hand skeleton visibility in settings."/>
-            </div>
-          </section>
-
-          
-          <section className="help-modal__section">
-            <h3 className="help-modal__section-title">Finger Mapping</h3>
-            <div className="help-modal__hands">
-              <div className="help-modal__hand">
-                <h4>Left Hand</h4>
-                <ul>
-                  <li><span>Thumb</span> Primary chord</li>
-                  <li><span>Index</span> Secondary chord</li>
-                  <li><span>Middle</span> Tertiary chord</li>
-                  <li><span>Ring</span> Fourth chord</li>
-                  <li><span>Pinky</span> Fifth chord</li>
-                </ul>
+        <ul className="modal__topics">
+          {TOPICS.map(({ icon: Icon, title, body }) => (<li key={title}>
+              <span className="modal__topic-icon"><Icon size={22}/></span>
+              <div>
+                <h3>{title}</h3>
+                <p>{body}</p>
               </div>
-              <div className="help-modal__hand">
-                <h4>Right Hand</h4>
-                <ul>
-                  <li><span>Thumb</span> Sixth chord</li>
-                  <li><span>Index</span> Seventh chord</li>
-                  <li><span>Middle</span> Eighth chord</li>
-                  <li><span>Ring</span> Ninth chord</li>
-                  <li><span>Pinky</span> Tenth chord</li>
-                </ul>
-              </div>
-            </div>
-            <p className="help-modal__note">
-              The specific notes/chords vary by instrument. Check the right panel during play for current mappings.
-            </p>
-          </section>
+            </li>))}
+        </ul>
 
-          
-          <section className="help-modal__section">
-            <h3 className="help-modal__section-title">Tips for Best Results</h3>
-            <ul className="help-modal__tips">
-              <li>
-                <CameraIcon size={16}/>
-                <span>Ensure good lighting on your hands</span>
-              </li>
-              <li>
-                <HandIcon size={16}/>
-                <span>Keep hands 1-2 feet from the camera</span>
-              </li>
-              <li>
-                <MusicNoteIcon size={16}/>
-                <span>Use headphones for zero latency audio</span>
-              </li>
-              <li>
-                <SparklesIcon size={16}/>
-                <span>Plain backgrounds work better for tracking</span>
-              </li>
-            </ul>
-          </section>
-        </div>
-
-        <footer className="help-modal__footer">
-          <button className="help-modal__button" onClick={onClose}>
-            Got it, let's play!
-          </button>
+        <footer className="modal__footer">
+          <button type="button" className="button button--primary modal__done" onClick={onClose}>Continue</button>
         </footer>
-      </div>
-    </div>);
-}
-interface HelpItemProps {
-    icon: React.ReactNode;
-    title: string;
-    description: string;
-}
-function HelpItem({ icon, title, description }: HelpItemProps) {
-    return (<div className="help-modal__item">
-      <div className="help-modal__item-icon">{icon}</div>
-      <div className="help-modal__item-content">
-        <h4 className="help-modal__item-title">{title}</h4>
-        <p className="help-modal__item-desc">{description}</p>
       </div>
     </div>);
 }

@@ -1,28 +1,29 @@
 interface ErrorOverlayProps {
     message: string;
     onRetry?: () => void;
+    onHome?: () => void;
 }
-export function ErrorOverlay({ message, onRetry }: ErrorOverlayProps) {
-    const handleRetry = () => {
-        if (onRetry) {
-            onRetry();
-        }
-        else {
-            window.location.reload();
-        }
-    };
-    return (<div className="error-overlay">
-      <div className="error-overlay__icon">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-          <line x1="12" y1="9" x2="12" y2="13"/>
-          <line x1="12" y1="17" x2="12.01" y2="17"/>
-        </svg>
+
+export function ErrorOverlay({ message, onRetry, onHome }: ErrorOverlayProps) {
+    return (<div className="error-overlay" role="alertdialog" aria-labelledby="error-title" aria-describedby="error-message">
+      <div className="error-overlay__card">
+        <div className="error-overlay__icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M3 7.5A1.5 1.5 0 0 1 4.5 6h2.2l1.4-2h7.8l1.4 2h2.2A1.5 1.5 0 0 1 21 7.5v10a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"/>
+            <circle cx="12" cy="12.5" r="3.5"/>
+            <path d="M3 3l18 18"/>
+          </svg>
+        </div>
+        <h2 className="error-overlay__title" id="error-title">Sepia can’t start</h2>
+        <p className="error-overlay__message" id="error-message">{message}</p>
+        <div className="error-overlay__actions">
+          <button type="button" className="button button--primary" onClick={onRetry ?? (() => window.location.reload())}>
+            Try again
+          </button>
+          {onHome && (<button type="button" className="button button--secondary" onClick={onHome}>
+              Back to home
+            </button>)}
+        </div>
       </div>
-      <h2 className="error-overlay__title">Something went wrong</h2>
-      <p className="error-overlay__message">{message}</p>
-      <button className="error-overlay__button" onClick={handleRetry}>
-        Try Again
-      </button>
     </div>);
 }

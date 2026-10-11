@@ -40,7 +40,7 @@ export function drawFingertips(ctx: CanvasRenderingContext2D, hand: Hand, instru
             ctx.stroke();
             if (showLabels) {
                 ctx.fillStyle = '#ffffff';
-                ctx.font = 'bold 14px "Inter", system-ui, sans-serif';
+                ctx.font = '600 15px -apple-system, BlinkMacSystemFont, "Inter Variable", "Segoe UI", system-ui, sans-serif';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'bottom';
                 ctx.fillText(noteConfig.name, pos.x, pos.y - UI_CONFIG.glowRadius - 8);
@@ -68,7 +68,7 @@ export function drawParticles(ctx: CanvasRenderingContext2D, particles: Particle
         ctx.fill();
         if (particle.life > particle.maxLife * 0.6) {
             ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 12px "Inter", system-ui, sans-serif';
+            ctx.font = '600 13px -apple-system, BlinkMacSystemFont, "Inter Variable", "Segoe UI", system-ui, sans-serif';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillText(particle.note, particle.x, particle.y - particle.size - 10);

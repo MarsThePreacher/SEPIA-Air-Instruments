@@ -1,338 +1,226 @@
-# Sepia | Air Instruments
-
 <div align="center">
 
-![Sepia Air Instruments](https://img.shields.io/badge/Sepia-Air%20Instruments-FF6B6B?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIGQ9Ik05IDE4VjVsOC04djE4bC04LTUiLz48cGF0aCBkPSJNOSA5YTMgMyAwIDAgMC0zIDN2MGEzIDMgMCAwIDAgMyAzIi8+PC9zdmc+)
+<img src="public/icon-192.png" width="88" height="88" alt="Sepia app icon" />
 
-**A touchless music performance system powered by hand tracking**
+# Sepia
 
-Play 120 General MIDI instruments using intuitive hand gestures - no hardware required.
+### Play music with your hands.
 
-[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB)](https://reactjs.org/)
-[![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![MediaPipe](https://img.shields.io/badge/MediaPipe-00A6D6?style=flat-square&logo=google&logoColor=white)](https://mediapipe.dev/)
-[![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com/)
+Raise a finger and hear a chord. 120 instruments, played through your camera,<br />
+entirely in your browser. No install, no account, no hardware.
 
-[Live Demo](https://sepia.website) · [Features](#features) · [Getting Started](#getting-started) · [How It Works](#how-it-works) · [Instruments](#instruments)
+<br />
+
+[**Open sepia.website →**](https://sepia.website)
+
+<br />
+
+[![Live](https://img.shields.io/badge/live-sepia.website-8b4a7c?style=flat-square)](https://sepia.website)
+[![License](https://img.shields.io/badge/license-MIT-1d1d1f?style=flat-square)](LICENSE)
+![React](https://img.shields.io/badge/React_19-1d1d1f?style=flat-square&logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-1d1d1f?style=flat-square&logo=typescript&logoColor=white)
+![MediaPipe](https://img.shields.io/badge/MediaPipe-1d1d1f?style=flat-square&logo=google&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-1d1d1f?style=flat-square&logo=vercel&logoColor=white)
 
 </div>
 
----
+<br />
 
-## Overview
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/hero-dark.png" />
+  <img src="docs/screenshots/hero-light.png" alt="The Sepia home page: Play music with your hands, above a live hand-tracking preview" />
+</picture>
 
-Sepia Air Instruments transforms your webcam into a musical instrument. Using advanced AI-powered hand tracking, you can play music simply by raising your fingers in front of the camera. No hardware required, no software to install. Just open the app and start creating music.
+<br />
+<br />
 
-**Try it now at [https://sepia.website](https://sepia.website)**
+## Ten fingers. Ten voices.
 
-## Features
+Sepia turns your webcam into an instrument. It follows 21 points on each hand and maps every finger to its own note or chord, so two hands give you ten voices. Lift a finger to play, hold it to sustain, lower it to let go.
 
-- **120 General MIDI Instruments** - Complete GM sound set including pianos, guitars, strings, brass, synths, ethnic instruments, and percussion
-- **Unique Note Mappings** - Each instrument has musically accurate chord voicings and note ranges tailored to its character
-- **Gesture-Based Music Creation** - Each finger triggers a unique note or chord (10 total with both hands)
-- **Real-Time Hand Tracking** - Powered by Google's MediaPipe for accurate, low-latency detection
-- **Hand Accuracy Indicator** - Live feedback showing detection quality for each hand
-- **Visual Feedback** - Beautiful particle effects and real-time hand skeleton visualization
-- **Audio Recording** - Record your performances and download as audio files
-- **Fully Responsive** - Optimized for desktop, tablet, and phone (portrait & landscape)
-- **No Installation Required** - Runs entirely in the browser
-- **Privacy First** - All processing happens locally; no data leaves your device
+|  |  |
+|---|---|
+| **120 instruments** | The full General MIDI set across 15 families, from concert grand to shamisen. Each one has its own hand-tuned mapping. |
+| **Plays what you mean** | A finger must stay raised for three frames before it sounds, so tracking jitter never turns into stray notes. |
+| **Record a take** | Capture Sepia's own audio output and save it as a file. Your microphone is never touched. |
+| **Private by design** | Hand tracking runs on your device in WebAssembly. Camera frames are never recorded, stored or uploaded. |
+| **Light and dark** | Follows your system appearance, or pick one. The camera view stays dark like a viewfinder. |
+| **Made for every screen** | Three columns on desktop, a bottom-sheet layout on phones, and a Camera-app-style layout in landscape. |
 
-## Getting Started
+<br />
 
-### Prerequisites
+## Screenshots
 
-- Modern web browser (Chrome, Firefox, Edge, Safari)
-- Webcam
-- Node.js 18+ (for development)
+<p align="center">
+  <img src="docs/screenshots/mobile.png" alt="Sepia on phones: the home page, the player, the instrument picker and settings" />
+</p>
 
-### Quick Start with Docker
+<table>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/player-light.png" alt="The player in light mode" /></td>
+    <td width="50%"><img src="docs/screenshots/player-dark.png" alt="The player in dark mode" /></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>The player, light</sub></td>
+    <td align="center"><sub>The player, dark</sub></td>
+  </tr>
+</table>
 
-```bash
-# Clone the repository
-git clone https://github.com/MohsinCell/SEPIA-Air-Instruments.git
-cd SEPIA-Air-Instruments
+<br />
 
-# Build and run with Docker Compose
-docker-compose up -d --build
+## How it works
 
-# Open in browser
-open http://localhost:3000
+```mermaid
+flowchart LR
+    A[Camera] --> B[MediaPipe Hand Landmarker<br/>WebAssembly, on device]
+    B --> C[21 landmarks per hand]
+    C --> D[Raised-finger detection<br/>3-frame debounce]
+    D --> E[Instrument mapping<br/>note or chord per finger]
+    E --> F[Web Audio synthesis]
+    D --> G[Canvas: skeleton, glow, particles]
 ```
 
-### Development Setup
+**Tracking.** Each video frame goes to Google's MediaPipe Hand Landmarker, running in the browser on the GPU where available, with a CPU fallback. It returns 21 landmarks per hand.
 
-```bash
-# Clone the repository
-git clone https://github.com/MohsinCell/SEPIA-Air-Instruments.git
-cd SEPIA-Air-Instruments
+**Finger detection.** For the index to pinky fingers, Sepia checks that the fingertip sits clearly above its middle knuckle and that the finger is straight. The thumb moves sideways rather than up, so it gets a vote instead: five checks (extension, pointing direction, straightness, distance from the index finger and sideways reach), of which three must pass. A finger only counts as raised after three consecutive frames.
 
-# Install dependencies
-npm install
+**Tracking quality.** The L and R meters on the stage combine palm stability, whether your palm faces the camera, and how continuously the hand has been seen.
 
-# Start development server
-npm run dev
+**Sound.** Notes are synthesised with the Web Audio API. Mappings follow each instrument's character:
 
-# Open in browser
-open http://localhost:5173
-```
+| Family | Mapping |
+|---|---|
+| Pianos, guitars | Full chord voicings: triads, sevenths, ninths |
+| Bass | Single notes in the low register |
+| Brass | Spread voicings with octave doublings |
+| Reeds and pipes | Melodic single notes in a natural range |
+| Synth pads | Extended chords: maj7, m9, add9 |
+| World | Pentatonic scales and traditional modes |
+| Percussive | Drum and percussion hits |
 
-### Build for Production
+<details>
+<summary><b>All 120 instruments</b></summary>
+<br />
 
-```bash
-# Create production build
-npm run build
+| Family | GM | Instruments |
+|---|---|---|
+| Piano | 0 to 7 | Acoustic Grand, Bright Acoustic, Electric Grand, Honky-Tonk, Electric Piano 1 (Rhodes), Electric Piano 2 (DX7), Harpsichord, Clavinet |
+| Chromatic Percussion | 8 to 15 | Celesta, Glockenspiel, Music Box, Vibraphone, Marimba, Xylophone, Tubular Bells, Dulcimer |
+| Organ | 16 to 23 | Drawbar, Percussive, Rock, Church, Reed Organ, Accordion, Harmonica, Tango Accordion |
+| Guitar | 24 to 31 | Nylon, Steel, Jazz, Clean, Muted, Overdriven, Distortion, Harmonics |
+| Bass | 32 to 39 | Acoustic, Finger, Pick, Fretless, Slap 1 and 2, Synth Bass 1 and 2 |
+| Strings | 40 to 47 | Violin, Viola, Cello, Contrabass, Tremolo, Pizzicato, Orchestral Harp, Timpani |
+| Ensemble | 48 to 55 | String Ensemble 1 and 2, Synth Strings 1 and 2, Choir Aahs, Voice Oohs, Synth Voice, Orchestra Hit |
+| Brass | 56 to 63 | Trumpet, Trombone, Tuba, Muted Trumpet, French Horn, Brass Section, Synth Brass 1 and 2 |
+| Reed | 64 to 71 | Soprano, Alto, Tenor and Baritone Sax, Oboe, English Horn, Bassoon, Clarinet |
+| Pipe | 72 to 79 | Piccolo, Flute, Recorder, Pan Flute, Blown Bottle, Shakuhachi, Whistle, Ocarina |
+| Synth Lead | 80 to 87 | Square, Sawtooth, Calliope, Chiff, Charang, Voice, Fifths, Bass and Lead |
+| Synth Pad | 88 to 95 | New Age, Warm, Polysynth, Choir, Bowed, Metallic, Halo, Sweep |
+| Synth FX | 96 to 103 | Rain, Soundtrack, Crystal, Atmosphere, Brightness, Goblins, Echoes, Sci-Fi |
+| World | 104 to 111 | Sitar, Banjo, Shamisen, Koto, Kalimba, Bagpipe, Fiddle, Shanai |
+| Percussive | 112 to 119 | Tinkle Bell, Agogo, Steel Drums, Woodblock, Taiko Drum, Melodic Tom, Synth Drum, Reverse Cymbal |
 
-# Preview production build
-npm run preview
-```
+</details>
 
-## How It Works
-
-### Hand Tracking
-
-Sepia uses [MediaPipe Hands](https://developers.google.com/mediapipe/solutions/vision/hand_landmarker) to detect and track hand landmarks in real-time. The system identifies 21 key points on each hand and determines which fingers are raised based on their relative positions.
-
-```
-        Middle
-          |
-Index     |     Ring
-  \       |       /
-   \      |      /
-    \     |     /    Pinky
-     \    |    /       |
-      \   |   /        |
-       \  |  /         |
-        \ | /          |
-         \|/           |
-    Thumb [Palm] ------+
-```
-
-### Finger Detection
-
-The app uses a sophisticated algorithm to determine if a finger is raised:
-
-- **Thumb**: Uses a voting system with 4 checks (extension, pointing direction, straightness, distance from index)
-- **Other Fingers**: Compares fingertip position to the middle knuckle (PIP joint)
-- **Debouncing**: Fingers must be raised for 3 consecutive frames to prevent flickering
-
-### Hand Accuracy
-
-The accuracy indicator measures:
-- **Palm stability** - How steady your hand position is
-- **Hand orientation** - Whether your palm is facing the camera
-- **Presence** - Continuous detection without dropouts
-
-### Sound Generation
-
-Audio is generated using the [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API) with General MIDI instrument synthesis. Each instrument has unique note mappings designed for its musical character:
-
-- **Pianos** - Full chord voicings (triads, 7ths, 9ths)
-- **Guitars** - 6-string chord voicings with proper fingerings
-- **Bass** - Low register single notes (E1-G4)
-- **Brass** - Spread voicings with octave doublings
-- **Reeds/Pipes** - Melodic single notes in appropriate ranges
-- **Synth Pads** - Rich extended chords (maj7, m9, add9)
-- **Ethnic** - Pentatonic scales and cultural modes
-- **Percussion** - GM drum kit sounds
-
-## Instruments
-
-Sepia includes all **120 General MIDI instruments** across 15 categories:
-
-| Category | GM # | Instruments |
-|----------|------|-------------|
-| **Piano** | 0-7 | Acoustic Grand, Bright Acoustic, Electric Grand, Honky-Tonk, Electric Piano 1 (Rhodes), Electric Piano 2 (DX7), Harpsichord, Clavinet |
-| **Chromatic Percussion** | 8-15 | Celesta, Glockenspiel, Music Box, Vibraphone, Marimba, Xylophone, Tubular Bells, Dulcimer |
-| **Organ** | 16-23 | Drawbar Organ, Percussive Organ, Rock Organ, Church Organ, Reed Organ, Accordion, Harmonica, Tango Accordion |
-| **Guitar** | 24-31 | Nylon Acoustic, Steel Acoustic, Jazz Electric, Clean Electric, Muted Electric, Overdriven, Distortion, Harmonics |
-| **Bass** | 32-39 | Acoustic Bass, Electric Finger, Electric Pick, Fretless, Slap Bass 1 & 2, Synth Bass 1 & 2 |
-| **Strings** | 40-47 | Violin, Viola, Cello, Contrabass, Tremolo Strings, Pizzicato Strings, Orchestral Harp, Timpani |
-| **Ensemble** | 48-55 | String Ensemble 1 & 2, Synth Strings 1 & 2, Choir Aahs, Voice Oohs, Synth Voice, Orchestra Hit |
-| **Brass** | 56-63 | Trumpet, Trombone, Tuba, Muted Trumpet, French Horn, Brass Section, Synth Brass 1 & 2 |
-| **Reed** | 64-71 | Soprano Sax, Alto Sax, Tenor Sax, Baritone Sax, Oboe, English Horn, Bassoon, Clarinet |
-| **Pipe** | 72-79 | Piccolo, Flute, Recorder, Pan Flute, Blown Bottle, Shakuhachi, Whistle, Ocarina |
-| **Synth Lead** | 80-87 | Square, Sawtooth, Calliope, Chiff, Charang, Voice, Fifths, Bass+Lead |
-| **Synth Pad** | 88-95 | New Age, Warm, Polysynth, Choir, Bowed, Metallic, Halo, Sweep |
-| **Synth FX** | 96-103 | Rain, Soundtrack, Crystal, Atmosphere, Brightness, Goblins, Echoes, Sci-Fi |
-| **Ethnic** | 104-111 | Sitar, Banjo, Shamisen, Koto, Kalimba, Bagpipe, Fiddle, Shanai |
-| **Percussive** | 112-119 | Tinkle Bell, Agogo, Steel Drums, Woodblock, Taiko Drum, Melodic Tom, Synth Drum, Reverse Cymbal |
-
-## Controls
-
-### Finger Mapping
-
-Each instrument has unique note/chord mappings. Here's an example for **Acoustic Grand Piano**:
-
-| Finger | Left Hand | Right Hand |
-|--------|-----------|------------|
-| Thumb | C Major | E minor |
-| Index | G Major | C7 |
-| Middle | A minor | G7 |
-| Ring | F Major | Am7 |
-| Pinky | D minor | Fmaj7 |
-
-Different instrument types use appropriate mappings:
-- **Lead instruments** (sax, flute, etc.) use single melodic notes
-- **Chord instruments** (piano, guitar, etc.) use full chord voicings
-- **Bass instruments** use low register single notes
-- **Percussion** uses drum kit sounds (kick, snare, hi-hat, etc.)
-
-### Settings
-
-- **Volume** - Adjust master volume (0-100%)
-- **Show Skeleton** - Toggle hand skeleton visualization
-- **Show Particles** - Toggle particle effects on note trigger
-
-### Status Bar
-
-The bottom status bar shows:
-- **Left hand accuracy** - Detection quality percentage
-- **Hand status** - "Show hands to play" or "X hand(s) detected"
-- **Right hand accuracy** - Detection quality percentage
-
-## Project Structure
-
-```
-air-instruments/
-├── deploy.sh
-├── eslint.config.js
-├── index.html
-├── public/
-│   ├── sepia-long.png
-│   └── sepia.svg
-├── src/
-│   ├── components/
-│   │   ├── landing/
-│   │   │   └── Landing.tsx
-│   │   ├── panels/
-│   │   │   ├── RightPanel.tsx
-│   │   │   └── Sidebar.tsx
-│   │   ├── ui/
-│   │   │   ├── ErrorOverlay.tsx
-│   │   │   ├── HelpModal.tsx
-│   │   │   ├── Icons.tsx
-│   │   │   └── LoadingOverlay.tsx
-│   │   ├── visualizer/
-│   │   │   └── Stage.tsx
-│   │   └── index.ts
-│   ├── constants/
-│   │   ├── chords.ts
-│   │   ├── config.ts
-│   │   ├── instrumentMappings.ts
-│   │   ├── index.ts
-│   │   └── instruments.ts
-│   ├── hooks/
-│   │   ├── useAudioEngine.ts
-│   │   ├── useAudioRecorder.ts
-│   │   ├── useCanvasRenderer.ts
-│   │   ├── useHandTracking.ts
-│   │   ├── useNoteHistory.ts
-│   │   ├── useParticles.ts
-│   │   ├── useSettings.ts
-│   │   └── index.ts
-│   ├── styles/
-│   │   ├── App.css
-│   │   ├── global.css
-│   │   └── Landing.css
-│   ├── types/
-│   │   └── index.ts
-│   ├── utils/
-│   │   ├── AudioEngine.ts
-│   │   ├── canvas.ts
-│   │   ├── handDetection.ts
-│   │   ├── handLandmarkerPreloader.ts
-│   │   ├── index.ts
-│   │   └── particles.ts
-│   ├── App.tsx
-│   └── main.tsx
-├── Dockerfile
-├── docker-compose.yml
-├── nginx.conf
-├── package-lock.json
-├── package.json
-├── tsconfig.app.json
-├── tsconfig.json
-├── tsconfig.node.json
-└── vite.config.ts
-```
-
-## Tech Stack
-
-- **Frontend Framework**: [React 18](https://reactjs.org/) with [TypeScript](https://www.typescriptlang.org/)
-- **Build Tool**: [Vite](https://vitejs.dev/)
-- **Hand Tracking**: [MediaPipe Hands](https://developers.google.com/mediapipe/solutions/vision/hand_landmarker)
-- **Audio Synthesis**: [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API) with General MIDI
-- **Styling**: CSS with CSS Variables (custom design system)
-- **Deployment**: [Docker](https://www.docker.com/) + [Nginx](https://nginx.org/)
-
-## Browser Support
-
-| Browser | Support |
-|---------|---------|
-| Chrome | Full support |
-| Firefox | Full support |
-| Edge | Full support |
-| Safari | Full support |
-| Mobile Chrome | Full support |
-| Mobile Safari | Full support |
-
-> **Note**: Camera access requires HTTPS in production environments.
-
-## Responsive Design
-
-Sepia is fully responsive across all device sizes:
-
-- **Desktop** (1024px+) - Full 3-column layout with sidebar, camera, and finger mapping panel
-- **Tablet** (768px-1024px) - 2-column layout with horizontal instrument bar
-- **Phone Portrait** (480px) - Fullscreen camera with compact instrument bar
-- **Phone Landscape** - Slim sidebar with maximized camera view
-
-## Performance Tips
-
-- Use good lighting for better hand detection
-- Position your hands 1-3 feet from the camera
-- Keep your palm facing the camera for best accuracy
-- Use landscape orientation on mobile devices
-- Close other camera-using applications
-- Chrome typically offers the best performance
+<br />
 
 ## Privacy
 
-Sepia Air Instruments is designed with privacy in mind:
+Sepia has no backend. The camera feed is processed in your browser and never leaves your device. There are no accounts, analytics, ads or cookies. Two preferences (volume and display settings, plus your appearance choice) are kept in local storage. The only third-party requests download the MediaPipe runtime from jsDelivr and the hand model from Google.
 
-- **No data collection** - All processing happens locally in your browser
-- **No server uploads** - Video feed never leaves your device
-- **No cookies** - No tracking or analytics
-- **No account required** - Just open and play
+Read the full policy at [sepia.website/privacy](https://sepia.website/privacy).
+
+<br />
+
+## Getting started
+
+You need Node.js 20.19 or newer and a webcam.
+
+```bash
+git clone https://github.com/MohsinCell/SEPIA-Air-Instruments.git
+cd SEPIA-Air-Instruments
+npm install
+npm run dev
+```
+
+Then open [localhost:5173](http://localhost:5173). Browsers only allow camera access on `localhost` or over HTTPS.
+
+| Command | What it does |
+|---|---|
+| `npm run dev` | Start the dev server with hot reload |
+| `npm run build` | Type-check and build to `dist/` |
+| `npm run preview` | Serve the production build locally |
+| `npm run lint` | Run ESLint |
+
+<br />
+
+## Deployment
+
+Production runs on **Vercel** at [sepia.website](https://sepia.website). `vercel.json` handles routing for the single-page app (so `/privacy` loads directly), sets the security headers and Content Security Policy, and caches built assets for a year.
+
+```bash
+vercel deploy --prod
+```
+
+A Docker and nginx setup is included as an alternative for self-hosting:
+
+```bash
+docker compose up -d --build
+```
+
+> [!NOTE]
+> `index.html` contains a small inline script that applies the light or dark theme before first paint. Both CSPs (`vercel.json` and `nginx.conf`) allow it by its SHA-256 hash, so if you change that script, update the hash in both files.
+
+<br />
+
+## Tips for great tracking
+
+- Use even, front-facing light. A window behind you makes your hands a silhouette.
+- Keep your palms toward the camera, about 30 to 60 cm away.
+- A plain background helps.
+- Headphones avoid the small delay of some Bluetooth speakers.
+- On a phone, landscape gives the widest view.
+
+<br />
+
+## Project structure
+
+```
+src/
+├── components/
+│   ├── landing/       Home page and the animated hands preview
+│   ├── privacy/       Privacy policy page
+│   ├── site/          Navigation, footer, theme toggle
+│   ├── panels/        Sidebar and bottom sheet, finger map, phone toolbars
+│   ├── visualizer/    Camera stage and tracking HUD
+│   └── ui/            Icons, help sheet, loading and error states
+├── constants/         Instruments, chord mappings, categories, config
+├── hooks/             Hand tracking, audio engine, recorder, settings
+├── lib/               Theme store, router, scroll reveal, page metadata
+├── styles/            Design tokens and per-page styles
+└── utils/             Audio engine, finger detection, canvas drawing
+```
+
+<br />
+
+## Built with
+
+[React 19](https://react.dev) · [TypeScript](https://www.typescriptlang.org) · [Vite](https://vite.dev) · [MediaPipe Tasks Vision](https://ai.google.dev/edge/mediapipe/solutions/vision/hand_landmarker) · [Web Audio API](https://developer.mozilla.org/docs/Web/API/Web_Audio_API) · [Inter](https://rsms.me/inter/), self-hosted · [Vercel](https://vercel.com)
+
+Works in current versions of Safari, Chrome, Edge and Firefox, on desktop and mobile.
+
+<br />
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+Issues and pull requests are welcome. For anything larger than a fix, please [open an issue](https://github.com/MohsinCell/SEPIA-Air-Instruments/issues) first so we can talk it through.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+[MIT](LICENSE) © 2026 Mohsin Belam
 
-## Acknowledgments
-
-- [MediaPipe](https://mediapipe.dev/) for the incredible hand tracking solution
-- [General MIDI](https://www.midi.org/specifications/item/gm-level-1-sound-set) for the standardized instrument specification
-- [Google Fonts](https://fonts.google.com/) for the Inter typeface
-
----
+<br />
 
 <div align="center">
-
-**Made with love for musicians everywhere**
-
-[Back to top](#sepia--air-instruments)
-
+<sub>Designed and built by <a href="https://github.com/MohsinCell">Mohsin Belam</a>.</sub>
 </div>
